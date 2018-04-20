@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 扫描所有controller包下面的所有controller -->
+	<context:component-scan base-package="com" />
+	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 开启注解配置 -->
+	<mvc:annotation-driven />
+	
+	<!-- 静态资源解析，包括js,css,img... -->
+	<mvc:resources location="/image/" mapping="/image/**" />
+	
+	<!-- 配置视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!--视图前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<!--视图后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!--  配置登陆拦截器 -->
+ 	<mvc:interceptors>
+		<mvc:interceptor>	 		
+			<mvc:mapping path="/**"/> 			 
+			 <mvc:exclude-mapping path="/**/fonts/*"/>
+	         <mvc:exclude-mapping path="/**/*.css"/>
+	         <mvc:exclude-mapping path="/common/**"/>
+	         <mvc:exclude-mapping path="/CSS/**"/>
+	         <mvc:exclude-mapping path="/**/*.js"/>
+	         <mvc:exclude-mapping path="/**/*.png"/>
+	         <mvc:exclude-mapping path="/**/*.gif"/>
+	         <mvc:exclude-mapping path="/**/*.jpg"/>
+	         <mvc:exclude-mapping path="/**/*.jpeg"/>
+	         <mvc:exclude-mapping path="/user/login"/>
+	         <mvc:exclude-mapping path="/user/toLogin"/>
+	         <mvc:exclude-mapping path="/user/toRegist"/>
+	         
+			<bean class="com.interceptor.LoginInterceptor"></bean> 	
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<!--   配置转换器（比如Date类型） -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	     <property name="converters">
+	         <list>
+	             <bean class="com.util.CreateTimeConvert"></bean>
+	         </list>
+	     </property>
+	 </bean>
+</beans>

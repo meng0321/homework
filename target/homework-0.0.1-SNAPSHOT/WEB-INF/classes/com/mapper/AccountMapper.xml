@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.Account" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="creatime" property="creatime" jdbcType="TIMESTAMP" />
+    <result column="createdate" property="createdate" jdbcType="DATE" />
+    <result column="createUser" property="createuser" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, account, name, age, sex, creatime, createdate, createUser, amount, updateTime, 
+    status
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!-- 添加员工 -->
+  <insert id="insert" parameterType="com.entity.Account" >
+    insert into account (id, account, name, 
+      age, sex, creatime, 
+      createdate, createUser, amount, 
+      updateTime, status)
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER}, #{creatime,jdbcType=TIMESTAMP}, 
+      #{createdate,jdbcType=DATE}, #{createuser,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.entity.Account" >
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="creatime != null" >
+        creatime,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="createuser != null" >
+        createUser,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="creatime != null" >
+        #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=DATE},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByExampleSelective" parameterType="map" >
+    update account
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatime != null" >
+        creatime = #{record.creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdate != null" >
+        createdate = #{record.createdate,jdbcType=DATE},
+      </if>
+      <if test="record.createuser != null" >
+        createUser = #{record.createuser,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByExample" parameterType="map" >
+    update account
+    set id = #{record.id,jdbcType=INTEGER},
+      account = #{record.account,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      sex = #{record.sex,jdbcType=INTEGER},
+      creatime = #{record.creatime,jdbcType=TIMESTAMP},
+      createdate = #{record.createdate,jdbcType=DATE},
+      createUser = #{record.createuser,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Account" >
+    update account
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="creatime != null" >
+        creatime = #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=DATE},
+      </if>
+      <if test="createuser != null" >
+        createUser = #{createuser,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.entity.Account" >
+    update account
+    set account = #{account,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=INTEGER},
+      creatime = #{creatime,jdbcType=TIMESTAMP},
+      createdate = #{createdate,jdbcType=DATE},
+      createUser = #{createuser,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 查找全部员工 -->
+  <select id="getAllAccount" parameterType="com.entity.Account" resultMap="BaseResultMap">
+  	select * from account 
+  	 <if test="startIndex >= 0 and pageSize > 0">
+      limit #{startIndex},#{pageSize}
+     </if>
+  </select>
+  
+  <!-- 获取全部员工信息 -->
+  <select id="getCountNum" parameterType="com.entity.Account" resultType="int">
+  	SELECT COUNT(*) FROM account
+  </select>
+ 
+</mapper>
